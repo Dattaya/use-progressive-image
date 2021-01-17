@@ -30,9 +30,10 @@ jobs:
         with:
           node-version: 14
       - name: Install dependencies - React ${{ matrix.react-version }}
-        run: npm i
-        run: npm rm react react-dom
-        run: npm i react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }}
+        run: |
+          npm i
+          npm rm react react-dom
+          npm i react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }}
       - name: Validate
         run: npm run lint
       - name: Run tests
