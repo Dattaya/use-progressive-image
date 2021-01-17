@@ -3,5 +3,6 @@
   "experimentalComponentTesting": true,
   "experimentalFetchPolyfill": true,
   "componentFolder": "cypress/components",
-  "baseUrl": "http://localhost:3000/"
+  "baseUrl": "http://localhost:3000/",
+  "video": false
 }
