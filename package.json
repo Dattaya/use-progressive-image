@@ -1,20 +1,37 @@
 {
-  "name": "@ykd/use-progressive-image",
+  "name": "@ohs/use-progressive-image",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "source": "src/index.ts",
-  "exports": "dist/index.modern.js",
-  "module": "dist/index.module.js",
+  "description": "Progressive image loading for React",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.modern.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
   "scripts": {
-    "build": "microbundle --no-compress --format modern,cjs",
+    "build": "microbundle --no-compress --tsconfig tsconfig.build.json",
     "start": "microbundle watch --no-compress --format modern,cjs",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix --ext .ts src"
+    "build:test": "next build",
+    "build:static:test": "next build && next out",
+    "cy:open": "cypress open",
+    "dev": "next",
+    "start:test": "next start",
+    "test": "cypress open -b chrome",
+    "lint": "eslint --fix --ext .ts,.tsx src components pages .eslintrc.js",
+    "tsc": "tsc",
+    "cy:run": "cypress run",
+    "cy:ci": "start-server-and-test dev http://localhost:3000 cy:run"
   },
   "peerDependencies": {
-    "react": "^16.0.0 || ^17.0.0"
+    "react": ">=16.8.0"
   },
+  "files": [
+    "/dist"
+  ],
   "engines": {
     "node": ">=10"
   },
@@ -23,10 +40,11 @@
     "url": "git+https://github.com/Dattaya/use-progressive-image.git"
   },
   "keywords": [
-    "lqip",
+    "react",
     "progressive",
     "image",
-    "loading"
+    "loading",
+    "lqip"
   ],
   "author": "Yaroslav Kiliba",
   "license": "MIT",
@@ -35,10 +53,14 @@
   },
   "homepage": "https://github.com/Dattaya/use-progressive-image#readme",
   "devDependencies": {
+    "@cypress/react": "^4.16.3",
+    "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.12.0",
-    "@typescript-eslint/parser": "^4.12.0",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "cypress": "^6.2.1",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -46,8 +68,14 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "microbundle": "^0.13.0",
+    "microbundle": "~0.13.0",
+    "next": "^10.0.4",
     "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "start-server-and-test": "^1.11.7",
     "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "use-deep-compare": "^1.1.0"
   }
 }

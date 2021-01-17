@@ -1,2 +1,8 @@
+package-lock.json
 node_modules
 dist
+coverage
+.nyc_output
+.next
+# Output of `npm pack`
+*.tgz

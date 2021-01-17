@@ -1,15 +1,20 @@
 import {
-  useEffect, useState, useMemo, useCallback, SourceHTMLAttributes, ImgHTMLAttributes,
+  useEffect, useState, useCallback, SourceHTMLAttributes, ImgHTMLAttributes,
 } from 'react';
+import { useDeepCompareMemo } from 'use-deep-compare';
 
-export type ImgProps = ImgHTMLAttributes<HTMLImageElement>
-export type SourceProp = SourceHTMLAttributes<HTMLSourceElement>
-export type SourceProps = SourceProp[]
+export type ImgAttrs = ImgHTMLAttributes<HTMLImageElement>
+export type SourceAttr = SourceHTMLAttributes<HTMLSourceElement>
+export type SourceAttrs = SourceAttr[]
+export type UseProgressiveImageReturn = [
+  boolean,
+  Event | string | undefined,
+]
 
-export const useProgressiveImage = (
-  imgProps?: ImgProps,
-  sourcesProps?: SourceProps,
-): [boolean, string | undefined, Event | string | undefined] => {
+const useProgressiveImage = (
+  imgAttrs?: ImgAttrs,
+  sourcesAttrs?: SourceAttrs,
+): UseProgressiveImageReturn => {
   const [, setRerender] = useState(false);
   const [errorEvent, setErrorEvent] = useState<Event | string | undefined>(undefined);
 
@@ -17,46 +22,43 @@ export const useProgressiveImage = (
     setRerender((prev) => !prev);
   }, []);
 
-  const handleError = useCallback((event: Event | string): void => {
+  const handleError = useCallback((event: Event | string) => {
     setErrorEvent(event);
   }, []);
 
   // eslint-disable-next-line consistent-return
-  const image = useMemo<HTMLImageElement | undefined>(() => {
-    if ((imgProps?.src) && typeof Image !== 'undefined') {
-      let pic: HTMLPictureElement | undefined;
-      if (sourcesProps && sourcesProps.length > 0) {
-        pic = document.createElement('picture');
-        sourcesProps?.forEach((sourceProps) => {
+  const image = useDeepCompareMemo<HTMLImageElement | undefined>(() => {
+    if ((imgAttrs?.src) && typeof Image !== 'undefined') {
+      const img = document.createElement('img');
+
+      if (sourcesAttrs && sourcesAttrs.length > 0) {
+        const pic = document.createElement('picture');
+        sourcesAttrs?.forEach((sourceProps) => {
           const source = document.createElement('source');
           Object.assign(source, sourceProps);
           pic.appendChild(source);
         });
+        pic?.appendChild(img);
       }
-      const img = document.createElement('img');
-      pic?.appendChild(img);
+
       img.onload = rerender;
       img.onerror = handleError;
-      Object.assign(img, imgProps);
+      Object.assign(img, imgAttrs);
       return img;
     }
-    // TODO Deep compare `imgProps` and `sourcesProps` to prevent infinite recursion?
-  }, [imgProps, sourcesProps, rerender, handleError]);
+  }, [imgAttrs, sourcesAttrs, rerender, handleError]);
 
   useEffect(() => () => {
     if (image) {
       image.onload = null;
+      image.onerror = null;
     }
   }, [image]);
 
-  // console.log(image?.currentSrc)
-
   if (image?.complete || !image) {
-    // SSR
-    // if (typeof Image === 'undefined' && params.placeholder) {
-    //   return [params.placeholder, false]
-    // }
-    return [false, imgProps?.src ?? undefined, errorEvent];
+    return [false, errorEvent];
   }
-  return [true, imgProps?.src ?? undefined, errorEvent];
+  return [true, errorEvent];
 };
+
+export default useProgressiveImage;
