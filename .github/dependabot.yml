@@ -1,10 +1,6 @@
 version: 2
-update_configs:
+updates:
   - package_manager: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
-    automerged_updates:
-      - match:
-          dependency_type: "all"
-          update_type: "in_range"
+      interval: "weekly"
