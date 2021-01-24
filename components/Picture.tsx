@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus, max-len */
 import React, { useRef } from 'react';
 
 import useProgressiveImage from '../src';
