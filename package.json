@@ -1,6 +1,6 @@
 {
   "name": "@ohs/use-progressive-image",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Progressive image loading for React",
   "source": "./src/index.ts",
   "exports": {
@@ -15,11 +15,11 @@
   "scripts": {
     "build": "microbundle --no-compress --tsconfig tsconfig.build.json",
     "start": "microbundle watch --no-compress --format modern,cjs",
-    "build:test": "next build",
-    "build:static:test": "next build && next out",
+    "next:start": "next start",
+    "next:build": "next build",
+    "next:build:static": "next build && next out",
     "cy:open": "cypress open",
     "dev": "next",
-    "start:test": "next start",
     "test": "cypress open -b chrome",
     "lint": "eslint --fix --ext .ts,.tsx src components pages",
     "tsc": "tsc",
