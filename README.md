@@ -17,8 +17,9 @@ $ yarn add @ohs/use-progressive-image
 ## Signature
 ```tsx
 function useProgressiveImage(
-  imgAttrs: ImgHTMLAttributes<HTMLImageElement>, 
-  sourcesAttrs: SourceHTMLAttributes<HTMLSourceElement>[]
+  imgAttrs?: ImgHTMLAttributes<HTMLImageElement>, 
+  sourcesAttrs?: SourceHTMLAttributes<HTMLSourceElement>[]
+  isSsr?: boolean // set to true if it's an SSR app
   // returns `loading` and an `Error` event if failed to load
 ): [boolean, Event | string | undefined] 
 ```

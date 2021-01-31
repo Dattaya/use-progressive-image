@@ -25,7 +25,7 @@ const Picture: React.FC<ImgProps> = ({ imgKey, path = '/img.png' }) => {
   const img = { src: `${path}${Number.isInteger(imgKey) ? `?${imgKey}` : ''}` };
   const sources = genSource(path);
 
-  const [loading, error] = useProgressiveImage(img, sources);
+  const [loading, error] = useProgressiveImage(img, sources, true);
 
   return (
     <>

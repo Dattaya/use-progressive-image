@@ -14,7 +14,7 @@ const placeholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAA
 const Img: React.FC<ImgProps> = ({ imgKey, path = '/img.png' }) => {
   const numOfRerenders = useRef(0);
   const img = { src: `${path}${Number.isInteger(imgKey) ? `?${imgKey}` : ''}` };
-  const [loading, error] = useProgressiveImage(img);
+  const [loading, error] = useProgressiveImage(img, null, true);
 
   return (
     <>

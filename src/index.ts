@@ -11,9 +11,22 @@ export type UseProgressiveImageReturn = [
   Event | string | undefined,
 ]
 
+/**
+ * Necessary to prevent mismatch between the client and server on initial render in ssr mode
+ */
+const isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
+
+const isInitSsr = (isSsrMode = false): boolean => {
+  if (isSsrMode && isBrowser && document.readyState !== 'complete') {
+    return true;
+  }
+  return false;
+};
+
 const useProgressiveImage = (
   imgAttrs?: ImgAttrs,
   sourcesAttrs?: SourceAttrs,
+  isSsr = false,
 ): UseProgressiveImageReturn => {
   const [, setRerender] = useState(false);
   const [errorEvent, setErrorEvent] = useState<Event | string | undefined>(undefined);
@@ -28,7 +41,7 @@ const useProgressiveImage = (
 
   // eslint-disable-next-line consistent-return
   const image = useDeepCompareMemo<HTMLImageElement | undefined>(() => {
-    if ((imgAttrs?.src) && typeof Image !== 'undefined') {
+    if (!isInitSsr(isSsr) && (imgAttrs?.src) && isBrowser) {
       const img = document.createElement('img');
 
       if (sourcesAttrs && sourcesAttrs.length > 0) {
@@ -46,7 +59,7 @@ const useProgressiveImage = (
       Object.assign(img, imgAttrs);
       return img;
     }
-  }, [imgAttrs, sourcesAttrs, rerender, handleError]);
+  }, [imgAttrs, sourcesAttrs, rerender, handleError, isSsr]);
 
   useEffect(() => () => {
     if (image) {
