@@ -12,7 +12,7 @@ describe('Test `img` prop', () => {
   })
 
   it('Loads image', () => {
-    cy.get('#messages').should('have.text', 'loading-not loading')
+    cy.get('#messages').should('have.text', 'not loading-loading-not loading')
     cy.get('#error').should('not.have.text', 'error')
     cy.get('#numOfRerenders').then(($num) => {
       const num = Number($num.text())

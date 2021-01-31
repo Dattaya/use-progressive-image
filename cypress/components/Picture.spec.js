@@ -11,7 +11,7 @@ describe('Test `sources` prop', () => {
   })
 
   it('Loads image', () => {
-    cy.get('#messages').should('have.text', 'loading-not loading')
+    cy.get('#messages').should('have.text', 'not loading-loading-not loading')
     cy.get('#img').invoke('prop', 'currentSrc').should('contain', 'img.avif')
     cy.get('#error').should('not.have.text', 'error')
     cy.get('#numOfRerenders').then(($num) => {
