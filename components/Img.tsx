@@ -20,7 +20,7 @@ const Img: React.FC<ImgProps> = ({ imgKey, img: imgProp = '/img.png' }) => {
 
   return (
     <>
-      <img id="img" width="300" height="300" {...imgProp} src={loading ? placeholder : img?.src} alt="" />
+      <img id="img" width="300" height="300" {...(typeof imgProp !== 'string' ? imgProp : {})} src={loading ? placeholder : img?.src} alt="" />
       <Log message={loading ? 'loading' : 'not loading'} />
       <div id="error">{error ? 'error' : ''}</div>
       <div id="numOfRerenders">{++numOfRerenders.current}</div>
