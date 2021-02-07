@@ -2,9 +2,9 @@
 
 Hook for progressive image loading, alternative to [react-progressive-image](https://www.npmjs.com/package/react-progressive-image).
 
- - No errors in SSR.
  - Supports `<img>` and `<picture>` with `<source>` elements.
- - If image is in browser's cache, `loading` will be immediatelly `false`.
+ - If image is in browser's cache, `loading` will be immediatelly `false` in Chrome, Firefox, and Edge.
+ - SSR: if it takes more time to load an image than to load, and parse js, and to initialize React, there might be a mismatch and loading would be `true` on the client when that happens. If you want to prevent that, set `ssr` to `true`. But this option does not work in development if you're using webpack, probably because webpack dev environment is a little bit magical.
  - Written in TypeScript.
 
 ## Install
@@ -16,12 +16,12 @@ $ yarn add @ohs/use-progressive-image
 
 ## Signature
 ```tsx
-function useProgressiveImage(
-  imgAttrs?: ImgHTMLAttributes<HTMLImageElement>, 
-  sourcesAttrs?: SourceHTMLAttributes<HTMLSourceElement>[]
-  isSsr?: boolean // set to true if it's an SSR app
+function useProgressiveImage({
+  img?: string | { sizes?: string; src?: string; srcSet?: string; };
+  sources?: { sizes?: string; src?: string; srcSet?: string; type?: string; }[];
+  ssr?: boolean; // set to true if it's an SSR app
   // returns `loading` and an `Error` event if failed to load
-): [boolean, Event | string | undefined] 
+}): [boolean, Event | string | undefined] 
 ```
 
 ## Examples
@@ -37,10 +37,7 @@ export interface ImgProps {
 }
 
 const Img: React.FC<ImgProps> = ({ lqip, src }) => {
-  // It's recommended to memoize `img` object, otherwise it will be deep 
-  // compared with previous value on each rerender in `useProgressiveImage`
-  const img = useMemo(() => ({ src }), [src]);
-  const [loading] = useProgressiveImage(img);
+  const [loading] = useProgressiveImage({ img: src });
 
   return (
     <img src={loading ? lqip : src} />
@@ -60,17 +57,18 @@ export interface ImgProps {
 }
 
 const Img: React.FC<ImgProps> = ({ lqip, src, avif }) => {
-  const img = useMemo(() => ({ src }), [src]);
+  // It's recommended to memoize `sources` array, otherwise it will be deep 
+  // compared with previous value on each rerender in `useProgressiveImage`
   const sources = useMemo(() => [{ 
-    srcset: avif, 
+    srcSet: avif, 
     type: 'image/avif' 
   }], [avif]);
 
-  const [loading] = useProgressiveImage(img, sources);
+  const [loading] = useProgressiveImage({ img: src, sources });
 
   return (
     <picture>
-      {!loading && <source type="image/avif" srcSet={avif} />}
+      {!loading && <source {...sources[0]} />}
       <img src={loading ? lqip : src} />
     </picture>
   );

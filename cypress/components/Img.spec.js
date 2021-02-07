@@ -20,6 +20,15 @@ describe('Test `img` prop', () => {
     })
   })
 
+  it('No error if everythin\'s undefined or null', () => {
+    mount(<Img img={{ src: undefined, sizes: undefined, srcSet: undefined }} />)
+    cy.get('#messages').should('have.text', 'not loading')
+    cy.get('#error').should('not.have.text', 'error')
+    mount(<Img img={{ src: null, sizes: null, srcSet: null }} />)
+    cy.get('#messages').should('have.text', 'not loading')
+    cy.get('#error').should('not.have.text', 'error')
+  })
+
   it('Loading is `false` when image is already in cache', () => {
     // const img = new Image()
     // img.src = `/img.png?${imgKey}`
@@ -30,7 +39,7 @@ describe('Test `img` prop', () => {
   })
 
   it('Returns error event when image failed to load', () => {
-    mount(<Img path="no-image.png" />)
+    mount(<Img img={{ src: 'no-image.png' }} />)
     cy.get('#error').should('have.text', 'error')
   })
 })
