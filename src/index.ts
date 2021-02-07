@@ -28,10 +28,19 @@ export type UseProgressiveImageReturn = [
 const isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
 
 /**
- * Necessary to prevent mismatch between the client and server on initial render in ssr mode
+ * Necessary to prevent mismatch between the client and server on initial render in ssr mode.
  */
-const isInitSsr = (isSsrMode = false): boolean => {
-  if (isSsrMode && isBrowser && document.readyState !== 'complete') {
+const initImages = isBrowser ? Array.from(document.images) : []; // Live array, need to convert to a regular
+let normInitImages: string[] | undefined;
+const getLazyInitImages = (): string[] => {
+  if (!normInitImages) {
+    normInitImages = initImages.map((img) => img.src).filter((src) => !src.startsWith('data:image'));
+  }
+  return normInitImages;
+};
+const isInitImage = (src: string | undefined): boolean => getLazyInitImages().some((initImgSrc) => initImgSrc?.endsWith(src));
+const isInitSsr = (isSsrMode = false, src?: string): boolean => {
+  if (isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)) {
     return true;
   }
   return false;
@@ -51,13 +60,6 @@ function normArg(obj: any): any {
   return normObj;
 }
 
-const isImg = (imgArg: ImgArg | string): boolean => {
-  if (typeof imgArg === 'string') {
-    return imgArg !== '';
-  }
-  return !!imgArg?.src;
-};
-
 const useProgressiveImage = ({
   img: imgArg,
   sources: sourcesArg,
@@ -76,7 +78,8 @@ const useProgressiveImage = ({
 
   // eslint-disable-next-line consistent-return
   const image = useDeepCompareMemo<HTMLImageElement | undefined>(() => {
-    if (!isInitSsr(ssr) && isImg(imgArg) && isBrowser) {
+    const src = typeof imgArg === 'string' ? imgArg : imgArg.src;
+    if (src && isBrowser && !isInitSsr(ssr, src)) {
       const img = document.createElement('img');
 
       if (sourcesArg && sourcesArg.length > 0) {
