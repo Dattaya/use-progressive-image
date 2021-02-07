@@ -22,7 +22,7 @@
     "dev": "next",
     "test": "cypress open -b chrome",
     "lint": "eslint --fix --ext .ts,.tsx src components pages",
-    "tsc": "tsc",
+    "tsc": "tsc -p tsconfig.build.json",
     "cy:run": "cypress run",
     "cy:ci": "start-server-and-test dev http://localhost:3000 cy:run"
   },

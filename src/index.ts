@@ -38,7 +38,9 @@ const getLazyInitImages = (): string[] => {
   }
   return normInitImages;
 };
-const isInitImage = (src: string | undefined): boolean => getLazyInitImages().some((initImgSrc) => initImgSrc?.endsWith(src));
+const isInitImage = (src: string | undefined): boolean => getLazyInitImages().some(
+  (initImgSrc) => src && initImgSrc?.endsWith(src),
+);
 const isInitSsr = (isSsrMode = false, src?: string): boolean => {
   if (isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)) {
     return true;
@@ -46,11 +48,11 @@ const isInitSsr = (isSsrMode = false, src?: string): boolean => {
   return false;
 };
 
-function normArg(obj: ImgArg | string): Omit<ImgArg, 'srcSet'> | { 'srcset': ImgArg['srcSet'] }
+function normArg(obj: ImgArg): Omit<ImgArg, 'srcSet'> | { 'srcset': ImgArg['srcSet'] }
+function normArg(obj: SourceArg): Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }[]
 function normArg(obj: SourceArg): Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }[]
 function normArg(obj: any): any {
-  const nObj = typeof obj === 'string' ? { src: obj } : obj;
-  const normObj = { ...nObj, srcset: nObj.srcSet };
+  const normObj = { ...obj, srcset: obj.srcSet };
   delete normObj.srcSet;
   Object.keys(normObj).forEach((key) => {
     if (normObj[key] === undefined) {
@@ -78,7 +80,7 @@ const useProgressiveImage = ({
 
   // eslint-disable-next-line consistent-return
   const image = useDeepCompareMemo<HTMLImageElement | undefined>(() => {
-    const src = typeof imgArg === 'string' ? imgArg : imgArg.src;
+    const src = typeof imgArg === 'string' ? imgArg : imgArg?.src;
     if (src && isBrowser && !isInitSsr(ssr, src)) {
       const img = document.createElement('img');
 
@@ -94,7 +96,7 @@ const useProgressiveImage = ({
 
       img.onload = rerender;
       img.onerror = handleError;
-      Object.assign(img, normArg(imgArg));
+      Object.assign(img, normArg(typeof imgArg === 'string' ? { src: imgArg } : imgArg!));
       return img;
     }
   }, [imgArg, sourcesArg, rerender, handleError, ssr]);

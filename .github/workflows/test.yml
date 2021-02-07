@@ -35,6 +35,8 @@ jobs:
           npm rm react react-dom
           npm i react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }}
       - name: Validate
-        run: npm run lint
+        run: |
+          npm run tsc
+          npm run lint
       - name: Run tests
         run: npm run cy:ci
