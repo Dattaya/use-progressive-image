@@ -18,7 +18,7 @@ type SourcesArg = SourceArg[]
 export type UseProgressiveImageArg = {
   img?: ImgArg | string;
   sources?: SourcesArg;
-  ssr: boolean;
+  ssr?: boolean;
 }
 export type UseProgressiveImageReturn = [
   boolean,
@@ -96,7 +96,7 @@ const useProgressiveImage = ({
 
       img.onload = rerender;
       img.onerror = handleError;
-      Object.assign(img, normArg(typeof imgArg === 'string' ? { src: imgArg } : imgArg!));
+      Object.assign(img, normArg(typeof imgArg === 'string' ? { src: imgArg } : imgArg!)); // eslint-disable-line @typescript-eslint/no-non-null-assertion
       return img;
     }
   }, [imgArg, sourcesArg, rerender, handleError, ssr]);
