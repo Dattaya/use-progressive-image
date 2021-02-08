@@ -4,7 +4,7 @@ Hook for progressive image loading, alternative to [react-progressive-image](htt
 
  - Supports `<img>` and `<picture>` with `<source>` elements.
  - If image is in browser's cache, `loading` will be immediatelly `false` in Chrome, Firefox, and Edge.
- - SSR: if it takes more time to load an image than to load, and parse js, and to initialize React, there might be a mismatch and loading would be `true` on the client when that happens. If you want to prevent that, set `ssr` to `true`. But this option might not work in development if you're using webpack, probably because webpack dev environment is a little bit magical.
+ - SSR: Returns `false` on the server, so the server returns image paths instead of placeholders because by the time js is loaded, parsed, and React initialized, most images would have already fully or at least partially loaded. If React is ready and an image is still loading, we have a mismatch and `loading` is going to be `true` on the client when that happens. If you want to prevent that, set `ssr` to `true`. But this option might not work in development if you're using webpack, probably because webpack dev environment is a little bit magical.
  - Written in TypeScript.
 
 ## Install
