@@ -1,14 +1,18 @@
 /// <reference types="cypress" />
 
-let imgParam = 0
+// let imgParam = 0
 
-context('Test img with placeholder', () => {
-  beforeEach(() => {
-    cy.visit(`/img`, { qs: { img: ++imgParam } })
-  })
+context('Test SSR', () => {
+  // beforeEach(() => {
+  //   cy.visit(`/img`, { qs: { img: ++imgParam } })
+  // })
 
-  it('Does not throw error in SSR', () => {
-    // cy.visit(`/img`, { qs: { img: imgParam, ssr: 1 } })
+  it('No mismatch between the server and client', () => {
+    cy.intercept('GET', 'http://localhost:3000/img.png', {
+      delayMs: 1,
+    })
+    cy.visit(`/img`)
     cy.get('#img').should('have.attr', 'src', `/img.png`)
+    cy.get('#messages').should('have.text', 'not loading')
   })
 })

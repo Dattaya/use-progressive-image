@@ -20,13 +20,13 @@ describe('Test `img` prop', () => {
     })
   })
 
-  it('No error if everythin\'s undefined or null', () => {
+  it('No error if everything is undefined', () => {
     mount(<Img img={{ src: undefined, sizes: undefined, srcSet: undefined }} />)
     cy.get('#messages').should('have.text', 'not loading')
     cy.get('#error').should('not.have.text', 'error')
-    mount(<Img img={{ src: null, sizes: null, srcSet: null }} />)
-    cy.get('#messages').should('have.text', 'not loading')
-    cy.get('#error').should('not.have.text', 'error')
+    // mount(<Img img={{ src: null, sizes: null, srcSet: null }} />)
+    // cy.get('#messages').should('have.text', 'not loading')
+    // cy.get('#error').should('not.have.text', 'error')
   })
 
   it('Loading is `false` when image is already in cache', () => {

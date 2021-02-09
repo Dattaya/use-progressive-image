@@ -16,7 +16,7 @@ $ yarn add @ohs/use-progressive-image
 
 ## Signature
 ```tsx
-function useProgressiveImage({
+function useProgressiveImage(arg: {
   img?: string | { sizes?: string; src?: string; srcSet?: string; };
   sources?: { sizes?: string; src?: string; srcSet?: string; type?: string; }[];
   ssr?: boolean; // set to true if it's an SSR app

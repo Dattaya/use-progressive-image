@@ -38,15 +38,12 @@ const getLazyInitImages = (): string[] => {
   }
   return normInitImages;
 };
-const isInitImage = (src: string | undefined): boolean => getLazyInitImages().some(
-  (initImgSrc) => src && initImgSrc?.endsWith(src),
+const isInitImage = (src: string): boolean => getLazyInitImages().some(
+  (initImgSrc) => initImgSrc.endsWith(src),
 );
-const isInitSsr = (isSsrMode = false, src?: string): boolean => {
-  if (isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)) {
-    return true;
-  }
-  return false;
-};
+const isInitSsr = (isSsrMode = false, src?: string): boolean => !!(
+  isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)
+);
 
 function normArg(obj: ImgArg): Omit<ImgArg, 'srcSet'> | { 'srcset': ImgArg['srcSet'] }
 function normArg(obj: SourceArg): Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }[]
@@ -86,12 +83,12 @@ const useProgressiveImage = ({
 
       if (sourcesArg && sourcesArg.length > 0) {
         const pic = document.createElement('picture');
-        sourcesArg?.forEach((sourceProps) => {
+        sourcesArg.forEach((sourceProps) => {
           const source = document.createElement('source');
           Object.assign(source, normArg(sourceProps));
           pic.appendChild(source);
         });
-        pic?.appendChild(img);
+        pic.appendChild(img);
       }
 
       img.onload = rerender;
