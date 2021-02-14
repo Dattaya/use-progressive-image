@@ -17,14 +17,15 @@
     "start": "microbundle watch --no-compress --format modern,cjs",
     "next:start": "next start",
     "next:build": "next build",
+    "next:build:start": "npm run next:build && npm run next:start",
     "next:build:static": "next build && next out",
+    "next:dev": "next",
     "cy:open": "cypress open",
-    "dev": "next",
     "test": "cypress open -b chrome",
     "lint": "eslint --fix --ext .ts,.tsx src components pages",
     "tsc": "tsc -p tsconfig.build.json",
     "cy:run": "cypress run",
-    "cy:ci": "start-server-and-test dev http://localhost:3000 cy:run"
+    "cy:ci": "start-server-and-test next:dev http://localhost:3000 cy:run"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
