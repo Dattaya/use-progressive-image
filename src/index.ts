@@ -3,17 +3,9 @@ import {
 } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
 
-type ImgArg = {
-  sizes?: string;
-  src?: string;
-  srcSet?: string;
-}
-type SourceArg = {
-  sizes?: string;
-  src?: string;
-  srcSet?: string;
-  type?: string;
-}
+type ImgArg = Pick<React.ComponentProps<'img'>, 'sizes' | 'src' | 'srcSet' | 'crossOrigin' | 'decoding' | 'referrerPolicy'>;
+type SourceArg = Pick<React.ComponentProps<'source'>, 'sizes' | 'src' | 'srcSet' | 'type' | 'media'>;
+
 type SourcesArg = SourceArg[]
 export type UseProgressiveImageArg = {
   img?: ImgArg | string;
@@ -30,7 +22,7 @@ const isBrowser = typeof window !== 'undefined' && window.document && window.doc
 /**
  * Necessary to prevent mismatch between the client and server on initial render in ssr mode.
  */
-const initImages = isBrowser ? Array.from(document.images) : []; // Live array, need to convert to a regular
+const initImages = isBrowser ? Array.from(document.images) : []; // Live array, need to convert to regular
 let normInitImages: string[] | undefined;
 const getLazyInitImages = (): string[] => {
   if (!normInitImages) {
@@ -45,9 +37,12 @@ const isInitSsr = (isSsrMode = false, src?: string): boolean => !!(
   isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)
 );
 
-function normArg(obj: ImgArg): Omit<ImgArg, 'srcSet'> | { 'srcset': ImgArg['srcSet'] }
-function normArg(obj: SourceArg): Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }[]
-function normArg(obj: SourceArg): Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }[]
+type NormImgArg = Omit<ImgArg, 'srcSet'> | { 'srcset': ImgArg['srcSet'] };
+type NormSourceArg = Omit<SourceArg, 'srcSet'> | { 'srcset': SourceArg['srcSet'] }
+
+function normArg(obj: ImgArg): NormImgArg
+function normArg(obj: SourceArg): NormSourceArg
+function normArg(obj: SourceArg): NormSourceArg
 function normArg(obj: any): any {
   const normObj = { ...obj, srcset: obj.srcSet };
   delete normObj.srcSet;

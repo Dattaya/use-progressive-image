@@ -21,12 +21,12 @@ describe('Test `sources` prop', () => {
   })
 
   it('No error if everythin\'s undefined or null', () => {
-    mount(<Picture imgKey={++imgKey} sources={[{ srcSet: undefined, src: undefined, sizes: undefined, type: undefined }]} />)
+    mount(<Picture imgKey={++imgKey} sources={[{ srcSet: undefined, src: undefined, sizes: undefined, type: undefined, media: undefined }]} />)
     cy.get('#messages').should('have.text', 'loading-not loading')
     cy.get('#error').should('not.have.text', 'error')
-    mount(<Picture imgKey={++imgKey} sources={[{ srcSet: null, src: null, sizes: null, type: null }]} />)
-    cy.get('#messages').should('have.text', 'loading-not loading')
-    cy.get('#error').should('not.have.text', 'error')
+    // mount(<Picture imgKey={++imgKey} sources={[{ srcSet: null, src: null, sizes: null, type: null }]} />)
+    // cy.get('#messages').should('have.text', 'loading-not loading')
+    // cy.get('#error').should('not.have.text', 'error')
   })
 
   it('Loading is `false` when image is already in cache', () => {

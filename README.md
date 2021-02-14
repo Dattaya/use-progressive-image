@@ -18,7 +18,7 @@ $ yarn add @ohs/use-progressive-image
 ```tsx
 function useProgressiveImage(arg: {
   img?: string | { sizes?: string; src?: string; srcSet?: string; };
-  sources?: { sizes?: string; src?: string; srcSet?: string; type?: string; }[];
+  sources?: { sizes?: string; src?: string; srcSet?: string; type?: string; media?: string }[];
   ssr?: boolean; // set to true if it's an SSR app
   // returns `loading` and an `Error` event if failed to load
 }): [boolean, Event | string | undefined] 
