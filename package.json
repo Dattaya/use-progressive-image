@@ -25,7 +25,7 @@
     "lint": "eslint --fix --ext .ts,.tsx src components pages",
     "tsc": "tsc -p tsconfig.build.json",
     "cy:run": "cypress run",
-    "cy:ci": "start-server-and-test next:dev http://localhost:3000 cy:run"
+    "cy:ci": "start-server-and-test next:build:start http://localhost:3000 cy:run"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
