@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "config:js-lib"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "managers": ["npm"],
+      "updateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "updateTypes": ["lockFileMaintenance"],
+      "automerge": true
+    }
+  ],
+  "rangeStrategy": "auto"
+}
