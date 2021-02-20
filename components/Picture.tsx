@@ -14,17 +14,21 @@ const placeholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAA
 
 export const removeExtension = (path: string | undefined): string | undefined => (path ? path.substr(0, path.lastIndexOf('.')) : undefined);
 
-const genSource = (path: string): UseProgressiveImageArg['sources'] => {
+const defaultPath = '/img.png';
+
+const genImgPath = (imgKey?: number, path = defaultPath): string => `${path}${Number.isInteger(imgKey) ? `?${imgKey}` : ''}`;
+
+const genSource = (imgKey?: number, path = defaultPath): UseProgressiveImageArg['sources'] => {
   if (path) {
-    return [{ srcSet: `${removeExtension(path)}.avif`, type: 'image/avif' }];
+    return [{ srcSet: genImgPath(imgKey, `${removeExtension(path)}.avif`), type: 'image/avif' }];
   }
   return undefined;
 };
 
-const Picture: React.FC<ImgProps> = ({ imgKey, path = '/img.png', sources: sourcesProp }) => {
+const Picture: React.FC<ImgProps> = ({ imgKey, path = defaultPath, sources: sourcesProp }) => {
   const numOfRerenders = useRef(0);
-  const img = { src: `${path}${Number.isInteger(imgKey) ? `?${imgKey}` : ''}` };
-  const sources = sourcesProp ?? genSource(path);
+  const img = { src: genImgPath(imgKey, path) };
+  const sources = sourcesProp ?? genSource(imgKey, path);
 
   const [loading, error] = useProgressiveImage({ img, sources, ssr: true });
 

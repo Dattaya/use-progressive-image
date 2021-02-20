@@ -29,6 +29,22 @@ describe('Test `sources` prop', () => {
     // cy.get('#error').should('not.have.text', 'error')
   })
 
+  it('Does not load fallback image', (done) => {
+    Cypress.config("requestTimeout", 20);
+    cy.intercept('GET', /\.png/).as('fallback')
+
+    cy.on("fail", (err) => {
+      expect(err.message).to.include(
+        "`cy.wait()` timed out waiting `20ms`"
+      );
+      done();
+    });
+
+    mount(<Picture imgKey={++imgKey} />)
+
+    cy.wait('@fallback')
+  })
+
   it('Loading is `false` when image is already in cache', () => {
     cy.wait(50) // TODO Fifure out how to get rid of this hack
     mount(<Picture imgKey={imgKey} />)
