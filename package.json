@@ -57,7 +57,7 @@
     "@cypress/react": "4.16.4",
     "@ohs/eslint-config": "1.0.3",
     "@types/node": "14.17.9",
-    "@types/react": "17.0.16",
+    "@types/react": "17.0.17",
     "babel-loader": "8.2.2",
     "cypress": "6.9.1",
     "eslint": "7.32.0",
