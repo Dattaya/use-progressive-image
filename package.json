@@ -68,6 +68,6 @@
     "typescript": "4.6.4"
   },
   "dependencies": {
-    "use-deep-compare": "1.1.0"
+    "use-deep-compare": "^1.1.0"
   }
 }
