@@ -1,6 +1,5 @@
 {
   "testFiles": "**/*.spec.{js,jsx}",
-  "experimentalComponentTesting": true,
   "experimentalFetchPolyfill": true,
   "componentFolder": "cypress/components",
   "baseUrl": "http://localhost:3000/",

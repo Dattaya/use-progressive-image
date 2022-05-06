@@ -13,6 +13,7 @@
   "module": "./dist/index.module.js",
   "unpkg": "./dist/index.umd.js",
   "scripts": {
+    "build1": "kcd-scripts build --bundle --minify",
     "build": "microbundle --no-compress --tsconfig tsconfig.build.json",
     "start": "microbundle watch --no-compress --format modern,cjs",
     "next:start": "next start",
@@ -21,10 +22,11 @@
     "next:build:static": "next build && next out",
     "next:dev": "next",
     "cy:open": "cypress open",
-    "test": "cypress open -b chrome",
+    "test": "cypress open-ct -b chrome",
+    "test1": "cypress open -b chrome",
     "lint": "eslint --fix --ext .ts,.tsx src components pages",
     "tsc": "tsc -p tsconfig.build.json",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run & cypress run-ct",
     "cy:ci": "start-server-and-test next:build:start http://localhost:3000 cy:run"
   },
   "peerDependencies": {
@@ -33,9 +35,6 @@
   "files": [
     "/dist"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dattaya/use-progressive-image.git"
@@ -54,21 +53,22 @@
   },
   "homepage": "https://github.com/Dattaya/use-progressive-image#readme",
   "devDependencies": {
-    "@cypress/react": "4.16.4",
+    "@cypress/react": "5.12.4",
+    "@cypress/webpack-dev-server": "1.8.4",
     "@ohs/eslint-config": "1.0.3",
-    "@types/node": "14.18.12",
+    "@types/node": "16.11.33",
     "@types/react": "17.0.39",
     "babel-loader": "8.2.3",
-    "cypress": "6.9.1",
+    "cypress": "9.6.0",
     "eslint": "7.32.0",
-    "microbundle": "0.14.2",
-    "next": "10.0.5",
+    "microbundle": "0.15.0",
+    "next": "11.1.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "start-server-and-test": "1.14.0",
-    "typescript": "4.5.5"
+    "typescript": "4.6.4"
   },
   "dependencies": {
-    "use-deep-compare": "^1.1.0"
+    "use-deep-compare": "1.1.0"
   }
 }
