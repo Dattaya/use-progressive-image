@@ -33,7 +33,7 @@ const getLazyInitImages = (): string[] => {
 const isInitImage = (src: string): boolean => getLazyInitImages().some(
   (initImgSrc) => initImgSrc.endsWith(src),
 );
-const isInitSsr = (isSsrMode = false, src?: string): boolean => !!(
+const isInitSsr = (src?: string, isSsrMode = false): boolean => !!(
   isSsrMode && src && isBrowser && document.readyState !== 'complete' && isInitImage(src)
 );
 
@@ -73,7 +73,7 @@ const useProgressiveImage = ({
   // eslint-disable-next-line consistent-return
   const image = useDeepCompareMemo<HTMLImageElement | undefined>(() => {
     const src = typeof imgArg === 'string' ? imgArg : imgArg?.src;
-    if (src && isBrowser && !isInitSsr(ssr, src)) {
+    if (src && isBrowser && !isInitSsr(src, ssr)) {
       const img = document.createElement('img');
 
       if (sourcesArg && sourcesArg.length > 0) {
