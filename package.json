@@ -13,7 +13,6 @@
   "module": "./dist/index.module.js",
   "unpkg": "./dist/index.umd.js",
   "scripts": {
-    "build1": "kcd-scripts build --bundle --minify",
     "build": "microbundle --no-compress --tsconfig tsconfig.build.json",
     "start": "microbundle watch --no-compress --format modern,cjs",
     "next:start": "next start",
