@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-no-action.svg" />
 
-[war.ukraine.ua](https://war.ukraine.ua/), [vshymanskyy/StandWithUkraine](https://github.com/vshymanskyy/StandWithUkraine)
+[war.ukraine.ua](https://war.ukraine.ua/support-ukraine/), [vshymanskyy/StandWithUkraine](https://github.com/vshymanskyy/StandWithUkraine)
 
 # use-progressive-image
 
