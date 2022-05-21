@@ -52,7 +52,7 @@
   },
   "homepage": "https://github.com/Dattaya/use-progressive-image#readme",
   "devDependencies": {
-    "@cypress/react": "5.12.4",
+    "@cypress/react": "5.12.5",
     "@cypress/webpack-dev-server": "1.8.4",
     "@ohs/eslint-config": "1.1.0",
     "@types/node": "16.11.36",
