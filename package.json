@@ -59,7 +59,7 @@
     "@types/react": "17.0.47",
     "babel-loader": "8.2.3",
     "cypress": "9.7.0",
-    "eslint": "8.17.0",
+    "eslint": "8.18.0",
     "microbundle": "0.15.0",
     "next": "11.1.4",
     "react": "17.0.2",
