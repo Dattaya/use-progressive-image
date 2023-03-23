@@ -60,7 +60,7 @@
     "babel-loader": "8.3.0",
     "cypress": "9.7.0",
     "eslint": "8.22.0",
-    "microbundle": "0.15.0",
+    "microbundle": "0.15.1",
     "next": "11.1.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
