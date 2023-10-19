@@ -61,7 +61,7 @@
     "cypress": "9.7.0",
     "eslint": "8.49.0",
     "microbundle": "0.15.1",
-    "next": "11.1.4",
+    "next": "13.5.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "start-server-and-test": "1.15.4",
