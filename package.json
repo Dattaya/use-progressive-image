@@ -56,7 +56,7 @@
     "@cypress/webpack-dev-server": "1.8.4",
     "@ohs/eslint-config": "1.1.0",
     "@types/node": "16.18.63",
-    "@types/react": "17.0.47",
+    "@types/react": "17.0.80",
     "babel-loader": "8.3.0",
     "cypress": "9.7.0",
     "eslint": "8.54.0",
